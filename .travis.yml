@@ -5,9 +5,9 @@ services:
   - docker
 before_install:
   # the tagname defined after -t can be anyting best practice is to name it dockerusername/repoName
-  - docker build -t armangurkan1/reactTest -f ./client/Dockerfile.dev ./client
+  - docker build -t armangurkan1/multi-client -f ./client/Dockerfile.dev ./client
 script:
-  - docker run -e CI=true armangurkan1/reactTest npm run test
+  - docker run -e CI=true armangurkan1/multi-client npm run test
 after_success:
   - docker build -t armangurkan1/multi-docker-client ./client
   - docker build -t armangurkan1/multi-docker-nginx ./nginx
@@ -18,18 +18,18 @@ after_success:
   - docker push armangurkan1/multi-docker-nginx
   - docker push armangurkan1/multi-docker-api
   - docker push armangurkan1/multi-docker-worker
-deploy:
-  edge: true
-  # already defined in Travis CI
-  provider: elasticbeanstalk
-  region: "us-west-2"
-  app: "myProject"
-  env: "MyProject-env"
-  #when you get elasticbeanstalk you get S3 bucket automatically, find it
-  bucket_name: "elasticbeanstalk-us-west-2-93483498439"
-  bucket_path: "myProject"
-  on:
-    branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: "$AWS_SECRET_KEY"
+#deploy:
+#  edge: true
+#  # already defined in Travis CI
+#  provider: elasticbeanstalk
+#  region: "us-west-2"
+#  app: "myProject"
+#  env: "MyProject-env"
+#  #when you get elasticbeanstalk you get S3 bucket automatically, find it
+#  bucket_name: "elasticbeanstalk-us-west-2-93483498439"
+#  bucket_path: "myProject"
+#  on:
+#    branch: master
+#  access_key_id: $AWS_ACCESS_KEY
+#  secret_access_key:
+#    secure: "$AWS_SECRET_KEY"
